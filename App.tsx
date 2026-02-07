@@ -149,7 +149,6 @@ const App: React.FC = () => {
       inputNodeRef.current = inGain;
       outputNodeRef.current = outGain;
       
-      // Setup Analysers
       const inAnalyser = inCtx.createAnalyser();
       inAnalyser.fftSize = 256;
       analyserRef.current = inAnalyser;
@@ -158,7 +157,6 @@ const App: React.FC = () => {
       outAnalyser.fftSize = 256;
       outputAnalyserRef.current = outAnalyser;
 
-      // Routing
       const micSource = inCtx.createMediaStreamSource(stream);
       micSource.connect(inGain);
       inGain.connect(inAnalyser);
@@ -284,7 +282,7 @@ const App: React.FC = () => {
   const recentEntries = state.transcriptions.slice(-3);
 
   return (
-    <div className="flex flex-col h-screen max-h-screen bg-black text-white p-4 font-sans select-none overflow-hidden">
+    <div className="flex flex-col h-screen max-h-screen bg-black text-white p-4 pt-[calc(1rem+var(--safe-area-inset-top))] pb-[calc(1rem+var(--safe-area-inset-bottom))] font-sans select-none overflow-hidden">
       {/* Ultra-Minimal Header */}
       <div className="flex justify-between items-center h-10 shrink-0 px-2">
         <div className="flex flex-col">
@@ -383,7 +381,6 @@ const App: React.FC = () => {
         ) : (
           <div className="h-full flex flex-col relative px-2">
             
-            {/* HERO DISPLAY: Immersive Reader Mode */}
             <div className={`flex-1 flex flex-col items-center justify-center p-6 transition-all duration-1000 ${isReaderMode ? 'opacity-100' : 'opacity-10 blur-xl scale-95'}`}>
                <div className="w-full h-full flex flex-col justify-center space-y-8">
                   {recentEntries.length > 0 ? (
@@ -410,7 +407,6 @@ const App: React.FC = () => {
                </div>
             </div>
 
-            {/* SMALL DISPLAY: Micro-Visualizer Bar */}
             <div className="h-12 shrink-0 mb-4 px-2">
                <AudioVisualizer 
                 analyser={analyserRef.current} 
@@ -421,7 +417,6 @@ const App: React.FC = () => {
                />
             </div>
 
-            {/* Transcription History Layer */}
             {!isReaderMode && (
               <div ref={transcriptScrollRef} className="absolute inset-x-0 top-0 bottom-24 z-10 overflow-y-auto p-6 space-y-4 bg-black/95 backdrop-blur-3xl animate-in fade-in zoom-in-95 duration-500 custom-scrollbar">
                 {state.transcriptions.map((t, i) => (
@@ -432,7 +427,6 @@ const App: React.FC = () => {
               </div>
             )}
 
-            {/* Controls Bar */}
             <div className="h-20 shrink-0 grid grid-cols-4 items-center bg-gray-900/40 rounded-[2.5rem] border border-white/5 mb-2 px-3 shadow-2xl">
                <button onClick={() => setIsReaderMode(!isReaderMode)} className={`flex flex-col items-center gap-1.5 transition-colors ${isReaderMode ? 'text-blue-500' : 'text-gray-600'}`}>
                  <div className={`w-9 h-9 rounded-full flex items-center justify-center transition-all ${isReaderMode ? 'bg-blue-500/10' : 'bg-black/40'}`}>
@@ -460,7 +454,6 @@ const App: React.FC = () => {
                </button>
             </div>
 
-            {/* Floating Input Over UI */}
             {isKeyboardVisible && (
               <div className="absolute bottom-24 inset-x-2 z-30 animate-in slide-in-from-bottom-4 duration-300">
                 <div className="bg-gray-950/90 backdrop-blur-3xl border border-white/10 rounded-[2rem] p-2 flex gap-2 shadow-[0_20px_60px_rgba(0,0,0,0.8)]">
